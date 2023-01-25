@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <!--Popup Year-->
+    <string name="PopupYearObjectifText">Objectif</string>
+    <string name="Around">Around</string>
+    <string-array name="PopupAroundValues">
+        <item>None</item>
+        <item>1</item>
+        <item>0.1</item>
+        <item>0.01</item>
+    </string-array>
+
+    <!--Common word-->
+    <string name="Title">Title</string>
+    <string name="Description">Description</string>
+
+    <!--Number-->
+    <string name="smallNumber">0.1</string>
 </resources>

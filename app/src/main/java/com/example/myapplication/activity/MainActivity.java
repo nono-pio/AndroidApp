@@ -15,6 +15,7 @@ import android.widget.Button;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.YearAdapter;
 import com.example.myapplication.db.Database;
+import com.example.myapplication.popup.YearPopup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,16 +51,12 @@ public class MainActivity extends AppCompatActivity {
                     YearPartActivity.class
             );
             startActivity(intent);
+
         });
     }
 
     public void btnAddYear(View v){
-        EditText yearTitle = findViewById(R.id.etYearSetTitle);
-
-        if(!yearTitle.getText().toString().isEmpty())
-        {
-            yearAdapter.addYear(yearTitle.getText().toString());
-            yearTitle.getText().clear();
-        }
+        YearPopup popup = new YearPopup(this, yearAdapter);
+        popup.create();
     }
 }
