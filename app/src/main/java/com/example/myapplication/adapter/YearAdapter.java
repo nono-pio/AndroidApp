@@ -1,6 +1,6 @@
 package com.example.myapplication.adapter;
 
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.dataclass.Year;
 import com.example.myapplication.db.Database;
-
-import java.util.ArrayList;
+import com.example.myapplication.db.YearDB;
 
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
 
     private Year[] years;
     private final Database db;
+    private Context context;
 
-    public YearAdapter(Database database) {
-        db = database;
-        years = db.year.getAllStart();
-        //Log.i("database_test", "years = " + years);
+    public YearAdapter(Context context) {
+        this.context = context;
+        db = new Database(context);
+        years = db.year.getAllYear();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,8 +59,8 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
     public void addYear(String title){
         int[] id = {1,2};
         Year newYear = new Year(title, "jshjhdjdh", 6d, id);
-        db.year.add(newYear);
-        years = db.year.getAll();
+        db.year.addYear(newYear);
+        years = db.year.getAllYear();
         notifyItemInserted(years.length - 1);
     }
 

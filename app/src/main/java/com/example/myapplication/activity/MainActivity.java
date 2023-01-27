@@ -7,18 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Button;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.YearAdapter;
-import com.example.myapplication.db.Database;
 import com.example.myapplication.popup.YearPopup;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
 
-    Database db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
         context = getApplicationContext();
 
-        db = new Database(context);
-
         recyclerView = findViewById(R.id.rvYears);
-        yearAdapter = new YearAdapter(db);
-        //Log.i("database_test", "files = " + Arrays.toString(context.fileList()));
+        yearAdapter = new YearAdapter(this);
         recyclerView.setAdapter(yearAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         btnChangeActivity = findViewById( R.id.btnChangeActivity );
         btnChangeActivity.setOnClickListener(view -> {
             Intent intent = new Intent(
