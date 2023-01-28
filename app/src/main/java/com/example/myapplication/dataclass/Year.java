@@ -4,12 +4,12 @@ public class Year {
 
     public int id;
 
-    public String title;
-    public String description;
+    public final String title;
+    public final String description;
 
-    public double grade;
+    public final double grade;
 
-    public int[] partYearId;
+    public final int[] partYearId;
 
     public Year(String title, String desc, double grade, int[] partYearId) {
         this.title = title;

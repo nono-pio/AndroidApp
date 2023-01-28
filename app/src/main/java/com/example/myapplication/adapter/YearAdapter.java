@@ -2,11 +2,9 @@ package com.example.myapplication.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,23 +16,31 @@ import com.example.myapplication.dataclass.Year;
 import com.example.myapplication.db.Database;
 import com.example.myapplication.popup.YearUpdatePopup;
 
+import java.util.ArrayList;
+
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
 
     private Year[] years;
+    private final ArrayList<Integer> yearId;
+
     private final Database db;
-    private final Context context;
     private final Activity activity;
 
     public YearAdapter(Activity activity) {
-        this.context = activity.getApplicationContext();
+        Context context = activity.getApplicationContext();
         this.activity = activity;
+
         db = new Database(context);
+
         years = db.year.getAllYear();
+        yearId = new ArrayList<>();
+        for ( Year year : years ) yearId.add(year.id);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView yearTitle, yearGrade;
-        ImageButton update;
+        final TextView yearTitle;
+        final TextView yearGrade;
+        final ImageButton update;
 
         public ViewHolder(View view) {
             super(view);
@@ -63,26 +69,33 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.ViewHolder> {
         viewHolder.yearTitle.setText(curYear.title);
         viewHolder.yearGrade.setText(curYear.grade + "/6");
         viewHolder.update.setOnClickListener(view -> {
-            YearUpdatePopup popup = new YearUpdatePopup(activity, this, position + 1);
+            YearUpdatePopup popup = new YearUpdatePopup(activity, this, curYear);
             popup.create();
         });
     }
 
-    public void addYear(String title){
-        int[] id = {1,2};
-        Year newYear = new Year(title, "jshjhdjdh", 6d, id);
+    public void addYear(Year newYear){
         db.year.addYear(newYear);
         years = db.year.getAllYear();
+        yearId.add(years[years.length - 1].id);
+
         notifyItemInserted(years.length - 1);
     }
 
-    public void updateYear(String title, int id){
-        int[] ids = {1,2};
-        Year newYear = new Year(title, "jshjhdjdh", 6d, ids);
-        db.year.updateYear(newYear, id);
+    public void updateYear(Year oldYear, Year newYear){
+        newYear.id = oldYear.id;
+        db.year.updateYear(newYear);
         years = db.year.getAllYear();
-        //notifyItemInserted(id - 1);
-        notifyItemChanged(id - 1);
+
+        notifyItemChanged(yearId.indexOf(newYear.id));
+    }
+
+    public void deleteYear(int id){
+        db.year.deleteYear(id);
+        years = db.year.getAllYear();
+
+        notifyItemRemoved(yearId.indexOf(id));
+        yearId.remove(Integer.valueOf(id));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

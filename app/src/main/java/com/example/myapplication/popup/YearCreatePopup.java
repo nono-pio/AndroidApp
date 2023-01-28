@@ -10,11 +10,11 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.YearAdapter;
+import com.example.myapplication.dataclass.Year;
 
 public class YearCreatePopup {
 
     private AlertDialog dialog;
-    private EditText yearTitle;
 
     private final Context context;
     private final Activity activity;
@@ -29,12 +29,12 @@ public class YearCreatePopup {
 
     public void create(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-        final View popupView = activity.getLayoutInflater().inflate(R.layout.popup_year, null);
+        final View popupView = activity.getLayoutInflater().inflate(R.layout.popup_year_create, null);
 
-        yearTitle = popupView.findViewById(R.id.etPopupYearTitle);
-        EditText yearDescription = popupView.findViewById(R.id.etPopupYearDesc);
-        Button save = popupView.findViewById(R.id.btnPopupYearSave);
-        Button cancel = popupView.findViewById(R.id.btnPopupYearCancel);
+        EditText yearTitle = popupView.findViewById(R.id.etPopupCreateYearTitle);
+        EditText yearDescription = popupView.findViewById(R.id.etPopupCreateYearDesc);
+        Button save = popupView.findViewById(R.id.btnPopupCreateYearSave);
+        Button cancel = popupView.findViewById(R.id.btnPopupCreateYearCancel);
 
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();
@@ -43,7 +43,8 @@ public class YearCreatePopup {
         save.setOnClickListener(view -> {
             if (!yearTitle.getText().toString().isEmpty())
             {
-                yearAdapter.addYear(yearTitle.getText().toString());
+                Year newYear = new Year(yearTitle.getText().toString(), yearDescription.getText().toString(), 0d, null);
+                yearAdapter.addYear(newYear);
                 Toast.makeText(context, "Add year", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             } else{
@@ -52,7 +53,6 @@ public class YearCreatePopup {
         });
 
         cancel.setOnClickListener(view -> dialog.dismiss());
-
     }
 
 }

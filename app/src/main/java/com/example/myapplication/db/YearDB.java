@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -56,16 +57,27 @@ public class YearDB extends SQLiteOpenHelper {
         }
     }
 
-    public void updateYear(Year newYear, int id){
+    public void updateYear(Year newYear){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TITLE, newYear.title);
         cv.put(COLUMN_DESCRIPTION, newYear.description);
-        long result = db.update(TABLE_NAME, cv, "_id=?", new String[] {String.valueOf(id)});
+        Log.i("abc", "id = " + newYear.id);
+        long result = db.update(TABLE_NAME, cv, "_id=?", new String[] {String.valueOf(newYear.id)});
         if (result == -1 ){
             Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void deleteYear(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME, "_id=?", new String[] {String.valueOf(id)});
+        if (result == -1){
+            Toast.makeText(context, "Error deleting", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -78,25 +90,25 @@ public class YearDB extends SQLiteOpenHelper {
             cursor = db.rawQuery(query,null);
         }
 
-        Year[] years;
+        Year[] years = new Year[0];
+        if (cursor != null) years = new Year[cursor.getCount()];
 
-        if(cursor == null || cursor.getCount() == 0){
-            years = new Year[0];
-        } else {
-            years = new Year[cursor.getCount()];
+        assert cursor != null;
+        if(cursor.getCount() != 0){
             int i = 0;
             while (cursor.moveToNext()){
-                years[i] = new Year(
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        0d,
-                        null
-                );
-                years[i].id = cursor.getInt(0);
+                Year newYear = new Year(
+                                cursor.getString(1),
+                                cursor.getString(2),
+                                0d,
+                                null
+                                );
+                newYear.id = cursor.getInt(0);
+                years[i] = newYear;
                 i++;
             }
         }
-        if (cursor != null) cursor.close();
+        cursor.close();
         return years;
     }
 }

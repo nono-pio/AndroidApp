@@ -6,7 +6,7 @@
     android:layout_height="260dp">
 
     <EditText
-        android:id="@+id/etPopupYearTitle"
+        android:id="@+id/etPopupUpdateYearTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -14,14 +14,15 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Title"
+        android:text="@string/Title"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Year test" />
 
     <EditText
-        android:id="@+id/etPopupYearDesc"
+        android:id="@+id/etPopupUpdateYearDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -29,42 +30,59 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Description"
+        android:text="@string/Description"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPopupYearTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/etPopupUpdateYearTitle"
+        tools:ignore="DuplicateSpeakableTextCheck"
+        tools:text="Some description" />
+
+    <ImageButton
+        android:id="@+id/ibPopupUpdateYearDelete"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#00FFFFFF"
+        android:contentDescription="@string/Description"
+        android:scaleType="center"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/trash" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ConstraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPopupYearDesc">
+        app:layout_constraintTop_toBottomOf="@+id/etPopupUpdateYearDesc">
 
         <Button
-            android:id="@+id/btnPopupYearSave"
+            android:id="@+id/btnPopupUpdateYearSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:text="save"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnPopupYearCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnPopupYearCancel"
+            android:id="@+id/btnPopupUpdateYearCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:text="@android:string/cancel"
+            app:backgroundTint="@android:color/holo_red_dark"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnPopupYearSave"
+            app:layout_constraintStart_toEndOf="@+id/btnPopupUpdateYearSave"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
