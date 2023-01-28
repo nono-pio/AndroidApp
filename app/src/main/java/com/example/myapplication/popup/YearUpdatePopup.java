@@ -3,6 +3,7 @@ package com.example.myapplication.popup;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,32 +12,31 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.YearAdapter;
 
-public class YearPopup {
-
-    private AlertDialog.Builder dialogBuilder;
+public class YearUpdatePopup {
     private AlertDialog dialog;
-    private EditText yearTitle, yearDescription;
-    private Button save, cancel;
 
-    private Context context;
-    private Activity activity;
+    private final Context context;
+    private final Activity activity;
 
-    private YearAdapter yearAdapter;
+    private final YearAdapter yearAdapter;
 
-    public YearPopup(Activity activity, YearAdapter yearAdapter){
+    private int idYear;
+
+    public YearUpdatePopup(Activity activity, YearAdapter yearAdapter, int id){
         this.activity = activity;
         this.context = activity;
         this.yearAdapter = yearAdapter;
+        idYear = id;
     }
 
     public void create(){
-        dialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         final View popupView = activity.getLayoutInflater().inflate(R.layout.popup_year, null);
 
-        yearTitle = popupView.findViewById(R.id.etPopupYearTitle);
-        yearDescription = popupView.findViewById(R.id.etPopupYearDesc);
-        save = popupView.findViewById(R.id.btnPopupYearSave);
-        cancel = popupView.findViewById(R.id.btnPopupYearCancel);
+        EditText yearTitle = popupView.findViewById(R.id.etPopupYearTitle);
+        EditText yearDescription = popupView.findViewById(R.id.etPopupYearDesc);
+        Button save = popupView.findViewById(R.id.btnPopupYearSave);
+        Button cancel = popupView.findViewById(R.id.btnPopupYearCancel);
 
         dialogBuilder.setView(popupView);
         dialog = dialogBuilder.create();
@@ -45,8 +45,8 @@ public class YearPopup {
         save.setOnClickListener(view -> {
             if (!yearTitle.getText().toString().isEmpty())
             {
-                yearAdapter.addYear(yearTitle.getText().toString());
-                Toast.makeText(context, "Add year", Toast.LENGTH_SHORT).show();
+                yearAdapter.updateYear(yearTitle.getText().toString(), idYear);
+                Toast.makeText(context, "replace year", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             } else{
                 Toast.makeText(context, "Title is empty", Toast.LENGTH_SHORT).show();
@@ -56,5 +56,4 @@ public class YearPopup {
         cancel.setOnClickListener(view -> dialog.dismiss());
 
     }
-
 }

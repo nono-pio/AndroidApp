@@ -2,6 +2,8 @@ package com.example.myapplication.dataclass;
 
 public class Year {
 
+    public int id;
+
     public String title;
     public String description;
 

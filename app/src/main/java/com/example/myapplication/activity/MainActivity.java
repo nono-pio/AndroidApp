@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.YearAdapter;
-import com.example.myapplication.popup.YearPopup;
+import com.example.myapplication.popup.YearCreatePopup;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnAddYear(View v){
-        YearPopup popup = new YearPopup(this, yearAdapter);
+        YearCreatePopup popup = new YearCreatePopup(this, yearAdapter);
         popup.create();
     }
 }

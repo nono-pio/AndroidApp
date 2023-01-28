@@ -13,7 +13,7 @@ import com.example.myapplication.dataclass.Year;
 
 public class YearDB extends SQLiteOpenHelper {
 
-    private Context context;
+    private final Context context;
     private static final String YearDB_NAME = "year.db";
     private static final int YearDB_VERSION = 1;
 
@@ -56,6 +56,19 @@ public class YearDB extends SQLiteOpenHelper {
         }
     }
 
+    public void updateYear(Year newYear, int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_TITLE, newYear.title);
+        cv.put(COLUMN_DESCRIPTION, newYear.description);
+        long result = db.update(TABLE_NAME, cv, "_id=?", new String[] {String.valueOf(id)});
+        if (result == -1 ){
+            Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public Year[] getAllYear(){
         String query = "SELECT * FROM year;";
         SQLiteDatabase db = this.getReadableDatabase();
@@ -79,9 +92,11 @@ public class YearDB extends SQLiteOpenHelper {
                         0d,
                         null
                 );
+                years[i].id = cursor.getInt(0);
                 i++;
             }
         }
+        if (cursor != null) cursor.close();
         return years;
     }
 }
